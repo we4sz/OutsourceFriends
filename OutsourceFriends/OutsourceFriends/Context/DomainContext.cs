@@ -7,18 +7,17 @@ using System.Web;
 
 namespace OutsourceFriends.Context
 {
-    public class DomainContext: IdentityDbContext<ApplicationUser>
+    public class DomainContext : IdentityDbContext<ApplicationUser>
     {
 
-            public DomainContext()
-                : base("DefaultConnection", throwIfV1Schema: false)
-            {
-            }
+        public DomainContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
+        {
+        }
 
-            public static DomainContext Create()
-            {
-                return new DomainContext();
-            }
+        public static DomainContext Create()
+        {
+            return new DomainContext();
         }
     }
 }

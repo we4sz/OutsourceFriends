@@ -10,11 +10,44 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using OutsourceFriends.Models;
+using OutsourceFriends.Helpers;
+using System.Web;
+using Facebook;
+using OutsourceFriends.Context;
 
 namespace OutsourceFriends.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
+        
+        private ApplicationUserManager _userManager;
+        private DomainManager _domainManager;
+
+        public DomainManager SelfiejobsManager
+        {
+            get
+            {
+                return _domainManager ?? HttpContext.Current.GetOwinContext().Get<DomainManager>();
+            }
+            private set
+            {
+                _domainManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        
+
         private readonly string _publicClientId;
 
         public ApplicationOAuthProvider(string publicClientId)
@@ -31,7 +64,30 @@ namespace OutsourceFriends.Providers
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
+            if (allowedOrigin == null) allowedOrigin = "*";
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            var formCollection = await context.Request.ReadFormAsync();
+            ProfileType profileType = ProfileType.TRAVELER;
+
+            Enum.TryParse(formCollection["profileType"] ?? "TRAVELER" ,out profileType);
+            ApplicationUser user = null;
+            string email = context.UserName;
+            if (email.StartsWith("facebookuser:"))
+            {
+                SignInStatusData data = await UserHelper.FacebookLogin(SelfiejobsManager, profileType, email.Substring(13));
+                if (data.Status == SignInStatus.Success)
+                {
+                    user = data.SignInUser;
+                }
+                else
+                {
+                    context.SetError("invalid_grant", data.SignInError);
+                    return;
+                }
+            }                
+
+
 
             if (user == null)
             {

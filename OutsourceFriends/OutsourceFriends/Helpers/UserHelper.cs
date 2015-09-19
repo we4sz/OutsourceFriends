@@ -7,16 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNet.Identity.EntityFramework;
-using SelfieJobs.Controllers;
-using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Spatial;
-using System.Web;
-using System.Data.Entity.Core.Objects;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace OutsourceFriends.Helpers
 {
@@ -108,7 +99,7 @@ namespace OutsourceFriends.Helpers
         }
 
 
-        public static async Task<SignInStatusData> FacebookLogin(DomainManager manager, ProfileType profileType, string token, string language)
+        public static async Task<SignInStatusData> FacebookLogin(DomainManager manager, ProfileType profileType, string token)
         {
             SignInStatusData data = new SignInStatusData();
 
@@ -142,7 +133,7 @@ namespace OutsourceFriends.Helpers
                         }
                         else
                         {
-                            return await CreateUser(manager, profileType, mail, null, id, language);
+                            return await CreateUser(manager, profileType, mail, null, id);
                         }
                     }
                     else
@@ -201,7 +192,7 @@ namespace OutsourceFriends.Helpers
         }
 
 
-        public static async Task<SignInStatusData> CreateUser(DomainManager manager, ProfileType profileType, string mail, string password, string facebookid, string language)
+        public static async Task<SignInStatusData> CreateUser(DomainManager manager, ProfileType profileType, string mail, string password, string facebookid)
         {
             SignInStatusData data = new SignInStatusData();
 
@@ -212,7 +203,7 @@ namespace OutsourceFriends.Helpers
                 Email = mail,
                 EmailConfirmed = true,
                 LastActive = DateTime.UtcNow,
-                UserLanguage = language ?? "sv",
+                UserLanguage = "en",
                 Emails = true,
             };
 

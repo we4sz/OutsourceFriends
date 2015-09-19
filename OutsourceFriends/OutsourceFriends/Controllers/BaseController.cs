@@ -4,11 +4,13 @@ using System.Net.Http;
 using System.Web;
 using OutsourceFriends.Context;
 using SelfieJobs.Filters;
+using System.Web.Http.Cors;
 
 namespace OutsourceFriends.Controllers
 {
     [Authorize]
     [RequireSecureConnectionFilter]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BaseController : ApiController
     {
 

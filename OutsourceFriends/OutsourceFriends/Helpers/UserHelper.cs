@@ -140,7 +140,7 @@ namespace OutsourceFriends.Helpers
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 data.SignInError = "204";
             }

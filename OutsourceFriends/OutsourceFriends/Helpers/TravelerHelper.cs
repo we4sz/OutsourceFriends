@@ -42,7 +42,9 @@ namespace OutsourceFriends.Helpers
         {
             Name = x.Name,
             Id = x.UserId,
-            ImageUrl = x.ImageUrl
+            ImageUrl = x.ImageUrl,
+            Rating = x.Ratings.Any() ? x.Ratings.Average(xx => xx.Rating) : 0,
+            Ratings = x.Ratings.Count()
         };
 
         public static System.Linq.Expressions.Expression<Func<TravelerRating, TravelerRatingViewModel>> travelerRatingViewSelector = (x) =>
@@ -55,7 +57,7 @@ namespace OutsourceFriends.Helpers
                 ImageUrl = x.Guide.ImageUrl,
                 Name = x.Guide.Name,
                 Title = x.Guide.Title,
-
+                Id = x.Guide.UserId
             },
             Created = x.Created
         };

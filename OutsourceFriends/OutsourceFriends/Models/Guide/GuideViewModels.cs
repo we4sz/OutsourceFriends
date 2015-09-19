@@ -58,6 +58,11 @@ namespace OutsourceFriends.Models
 
         public string Name { get; set; }
 
+        public double Rating { get; set; }
+
+        public int Ratings { get; set; }
+
+
     }
 
 }

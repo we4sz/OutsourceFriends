@@ -45,7 +45,10 @@ namespace OutsourceFriends.Helpers
                 Description = x.Description,
                 Tags = x.Tags.Select(xx => xx.Name),
                 Name = x.Name,
-                ImageUrl = x.ImageUrl
+                ImageUrl = x.ImageUrl,
+                Rating = x.Ratings.Any() ? x.Ratings.Average(xx => xx.Rating) : 0,
+                Ratings = x.Ratings.Count(),
+                Id = x.UserId
             };
 
         public static System.Linq.Expressions.Expression<Func<GuideRating, GuideRatingViewModel>> guideRatingViewSelector = (x) =>

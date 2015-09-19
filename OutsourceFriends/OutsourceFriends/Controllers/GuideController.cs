@@ -133,7 +133,7 @@ namespace OutsourceFriends.Controllers
         }
 
         [Route("Result")]
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IHttpActionResult> GetResult(GuideSearchViewModel model)
         {

@@ -1,8 +1,11 @@
 namespace OutsourceFriends.Migrations
 {
+    using CsvHelper;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Diagnostics;
+    using System.IO;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<OutsourceFriends.Context.DomainContext>
@@ -12,20 +15,11 @@ namespace OutsourceFriends.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
+
+
         protected override void Seed(OutsourceFriends.Context.DomainContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+           
         }
     }
 }

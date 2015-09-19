@@ -28,11 +28,17 @@ namespace SelfieJobs.Controllers.MVC
     public class AccountController : BaseController
     {
 
+        // POST: /Account/Login
+        [HttpGet]
+        public ActionResult Test()
+        {
+            return Json(new { Test = true });
+        }
 
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginFacebookViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginFacebookViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -42,7 +48,7 @@ namespace SelfieJobs.Controllers.MVC
             SignInStatusData data = await UserHelper.FacebookLogin(SelfiejobsManager, model.ProfileType, model.Token, CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
             if (data.Status == SignInStatus.Success)
             {
-                await SignInManager.SignInAsync(data.SignInUser, true, true);
+                await SignInManager.SignInAsync(data.SignInUser, true, false);
                 return Json(new { Success = true });
             }
             else

@@ -64,8 +64,8 @@ namespace OutsourceFriends.Helpers
                     if (data.Status == SignInStatus.Success)
                     {
                         data.SignInUser = user;
-                        await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-                        await GuideHelper.CreateGuidIfNotExists(manager, user);
+                        await TravelerHelper.CreateTravelerIfNotExists(manager, user, null);
+                        await GuideHelper.CreateGuidIfNotExists(manager, user, null);
                     }
                     else if (data.Status == SignInStatus.LockedOut)
                     {
@@ -134,8 +134,8 @@ namespace OutsourceFriends.Helpers
                     {
                         var user = users.First();
                         data.SignInUser = user;
-                        await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-                        await GuideHelper.CreateGuidIfNotExists(manager, user);
+                        await TravelerHelper.CreateTravelerIfNotExists(manager, user, "http://graph.facebook.com/" + id + "/picture?type=large");
+                        await GuideHelper.CreateGuidIfNotExists(manager, user, "http://graph.facebook.com/" + id + "/picture?type=large");
                         data.Status = SignInStatus.Success;
                     }
                 }
@@ -221,8 +221,8 @@ namespace OutsourceFriends.Helpers
 
 
 
-            user.Traveler = await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-            user.Guide = await GuideHelper.CreateGuidIfNotExists(manager, user);
+            user.Traveler = await TravelerHelper.CreateTravelerIfNotExists(manager, user, facebookid == null ? null : "http://graph.facebook.com/" + facebookid + "/picture?type=large");
+            user.Guide = await GuideHelper.CreateGuidIfNotExists(manager, user, facebookid == null ? null : "http://graph.facebook.com/" + facebookid + "/picture?type=large");
 
             data.Status = SignInStatus.Success;
             data.SignInUser = user;

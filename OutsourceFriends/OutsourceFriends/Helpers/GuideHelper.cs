@@ -8,9 +8,9 @@ namespace OutsourceFriends.Helpers
 {
     public class GuideHelper
     {
-        public static async Task<Guide> CreateGuidIfNotExists(DomainManager manager, ApplicationUser user)
+        public static async Task<Guide> CreateGuidIfNotExists(DomainManager manager, ApplicationUser user, string imageUrl)
         {
-            if (user.Traveler == null)
+            if (user.Guide == null)
             {
                 Guide g = new Guide()
                 {
@@ -27,6 +27,12 @@ namespace OutsourceFriends.Helpers
 
                 manager.db.Guides.Add(g);
                 await manager.save();
+
+                if (!string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    await ImageHelper.setImageFromUrl(manager, imageUrl, g);
+                }
+
             }
             return user.Guide;
         }

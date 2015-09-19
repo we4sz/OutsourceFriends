@@ -10,7 +10,7 @@ namespace OutsourceFriends.Helpers
 {
     public class TravelerHelper
     {
-        public static async Task<Traveler> CreateTravelerIfNotExists(DomainManager manager, ApplicationUser user)
+        public static async Task<Traveler> CreateTravelerIfNotExists(DomainManager manager, ApplicationUser user, string imageUrl)
         {
             if (user.Traveler == null)
             {
@@ -27,6 +27,11 @@ namespace OutsourceFriends.Helpers
 
                 manager.db.Travelers.Add(t);
                 await manager.save();
+
+                if (!string.IsNullOrWhiteSpace(imageUrl))
+                {
+                    await ImageHelper.setImageFromUrl(manager, imageUrl, t);
+                }
             }
             return user.Traveler;
         }

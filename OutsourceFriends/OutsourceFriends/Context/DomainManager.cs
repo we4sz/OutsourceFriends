@@ -5,7 +5,9 @@ using OutsourceFriends.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Spatial;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -144,6 +146,8 @@ namespace OutsourceFriends.Context
                 return null;
             }
         }
+
+
         public async Task<IdentityResult> addUserPassword(string userID, string newpassword)
         {
 
@@ -167,6 +171,64 @@ namespace OutsourceFriends.Context
         }
 
 
+        public async Task<IEnumerable<string>> findUserIds(double latitude, double longitude, SearchSort? sort,int? maxbudget, List<string> ids, int amount, int range)
+        {
+
+            List<string> list = null;
+            try
+            {
+                list = await db.Database.SqlQuery<string>(buildFindGuideSql(amount,longitude,latitude,sort,maxbudget,ids,range)).ToListAsync();
+            }
+            catch
+            {
+
+            }
+            return list;
+        }
+
+
+
+        private string buildFindGuideSql(int amount, double longitude, double latitude, SearchSort? Sort, int? maxbudget, List<string> ids, int range)
+        {
+            string sort = "NEWID()";
+            string location = "geography::STPointFromText('POINT(" + longitude.ToString().Replace(",", ".") + " " + latitude.ToString().Replace(",", ".") + ")', 4326)";
+
+            if (Sort.HasValue)
+            {
+                if (Sort == SearchSort.RATING)
+                {
+                    sort = "(select avg(Rating) from GuideRatings as gr where gr.Guideid = g.userid) desc";
+                }
+            }
+
+            if (ids != null)
+            {
+                ids = ids.Select(x =>
+                {
+                    Match match = Regex.Match(x, @"(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}");
+                    if (match.Success)
+                    {
+                        return match.Value;
+                    }
+                    return null;
+                }).Where(x => x != null).ToList();
+            }
+
+            return
+                "select top " + amount + " " +
+
+                @"g.UserId 
+		        from Guides as g with(nolock,Index(SPINDEX_Guide))
+		        where "
+
+                + (maxbudget > 0 ? " g.minbudget < " + maxbudget + " and " : "")
+
+                + (ids != null && ids.Count > 0 ? " g.userid not in (" + string.Join(",", ids.Select(x => "'" + x + "'")) + ") and " : "")
+
+                + " g.ShowInSearch = 1 and g.Removed = 0"
+                + " and g.Location.STDistance(" + location + ") < "+range+@"*1000   
+		        order by " + sort;
+        }
 
 
 

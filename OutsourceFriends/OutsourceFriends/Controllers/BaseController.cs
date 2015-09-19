@@ -17,7 +17,7 @@ namespace OutsourceFriends.Controllers
         private DomainManager _domainManager;
 
 
-        public DomainManager SelfiejobsManager
+        public DomainManager DomainManager
         {
             get
             {

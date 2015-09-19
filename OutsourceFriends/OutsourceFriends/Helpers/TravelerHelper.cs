@@ -12,7 +12,7 @@ namespace OutsourceFriends.Helpers
     {
         public static async Task<Traveler> CreateTravelerIfNotExists(DomainManager manager, ApplicationUser user)
         {
-            if(user.Traveler == null)
+            if (user.Traveler == null)
             {
                 Traveler t = new Traveler()
                 {
@@ -30,5 +30,13 @@ namespace OutsourceFriends.Helpers
             }
             return user.Traveler;
         }
+
+
+        public static System.Linq.Expressions.Expression<Func<Traveler, TravelerViewModel>> travelerViewSelector = (x) =>
+        new TravelerViewModel()
+        {
+            Name = x.Name,
+            ImageUrl = x.ImageUrl
+        };
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using OutsourceFriends.Context;
 using OutsourceFriends.Models;
+using System.Linq;
 
 namespace OutsourceFriends.Helpers
 {
@@ -27,5 +28,27 @@ namespace OutsourceFriends.Helpers
             }
             return user.Guide;
         }
+
+
+        public static System.Linq.Expressions.Expression<Func<Guide, GuideViewModel>> guideViewSelector = (x) =>
+            new GuideViewModel()
+            {
+                Title = x.Title,
+                Description = x.Description,
+                Tags = x.Tags.Select(xx => xx.Name)
+            };
+
+        public static System.Linq.Expressions.Expression<Func<GuideRating, GuideRatingViewModel>> guideRatingViewSelector = (x) =>
+            new GuideRatingViewModel()
+            {
+                Rating = x.Rating,
+                Description = x.Description,
+                Traveler = new TravelerViewModel
+                {
+                    ImageUrl = x.Traveler.ImageUrl,
+                    Name = x.Traveler.Name
+                },
+                Created = x.Created
+            };
     }
 }

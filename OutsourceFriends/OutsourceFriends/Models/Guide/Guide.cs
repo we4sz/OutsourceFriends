@@ -27,6 +27,10 @@ namespace OutsourceFriends.Models
 
         public virtual ICollection<GuideRating> Ratings { get; set; }
 
+        public virtual ICollection<TravelerRating> GivenRatings { get; set; }
+
+        public virtual ICollection<BookingRequest> Bookings { get; set; }
+
         [MaxLength(256)]
         public string Title { get; set; }
 
@@ -66,12 +70,14 @@ namespace OutsourceFriends.Models
         {
             Tags = new List<Tag>();
             Ratings = new List<GuideRating>();
+            GivenRatings = new List<TravelerRating>();
+            Bookings = new List<BookingRequest>();
         }
 
         public void beforeSave(bool fullyLoaded)
         {
             UpdatedTime = DateTime.UtcNow;
-            ShowInSearch = !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Description);
+            ShowInSearch = !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Description) && !string.IsNullOrWhiteSpace(ImageUrl) && !string.IsNullOrWhiteSpace(Name);
         }
 
     }

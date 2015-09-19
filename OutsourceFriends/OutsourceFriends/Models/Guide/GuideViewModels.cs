@@ -6,21 +6,6 @@ using System.Web;
 
 namespace OutsourceFriends.Models
 {
-    public class GuideDescriptionViewModel
-    {
-
-        [Required]
-        public string Description { get; set; }
-
-    }
-
-    public class GuideTitleViewModel
-    {
-        [Required]
-        public string Title { get; set; }
-
-    }
-
     public class GuideSearchViewModel
     {
 
@@ -36,26 +21,6 @@ namespace OutsourceFriends.Models
 
         public int? MaxBudget { get; set; }
     }
-
-    public class GuideBudgetViewModel
-    {
-
-        [Required]
-        public int MinBudget { get; set; }
-
-    }
-
-
-    public class GuideLocationViewModel
-    {
-
-        [Required]
-        public double Longitude { get; set; }
-        [Required]
-        public double Latitude { get; set; }
-
-    }
-
     public class GuideRatingViewModel
     {
         public int Rating { get; set; }
@@ -67,6 +32,18 @@ namespace OutsourceFriends.Models
         public DateTime? Created { get; set; }
     }
 
+
+    public class SmallGuideViewModel
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public string Name { get; set; }
+
+    }
     public class GuideViewModel
     {
         public string Id { get; set; }
@@ -76,6 +53,10 @@ namespace OutsourceFriends.Models
         public string Description { get; set; }
 
         public IEnumerable<string> Tags { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public string Name { get; set; }
 
     }
 

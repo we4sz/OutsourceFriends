@@ -19,7 +19,7 @@ namespace OutsourceFriends.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
-        
+
         private ApplicationUserManager _userManager;
         private DomainManager _domainManager;
 
@@ -46,7 +46,7 @@ namespace OutsourceFriends.Providers
                 _userManager = value;
             }
         }
-        
+
 
         private readonly string _publicClientId;
 
@@ -67,15 +67,13 @@ namespace OutsourceFriends.Providers
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
             if (allowedOrigin == null) allowedOrigin = "*";
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
-            var formCollection = await context.Request.ReadFormAsync();
-            ProfileType profileType = ProfileType.TRAVELER;
 
-            Enum.TryParse(formCollection["profileType"] ?? "TRAVELER" ,out profileType);
+
             ApplicationUser user = null;
             string email = context.UserName;
             if (email.StartsWith("facebookuser:"))
             {
-                SignInStatusData data = await UserHelper.FacebookLogin(SelfiejobsManager, profileType, email.Substring(13));
+                SignInStatusData data = await UserHelper.FacebookLogin(SelfiejobsManager, email.Substring(13));
                 if (data.Status == SignInStatus.Success)
                 {
                     user = data.SignInUser;
@@ -85,7 +83,7 @@ namespace OutsourceFriends.Providers
                     context.SetError("invalid_grant", data.SignInError);
                     return;
                 }
-            }                
+            }
 
             if (user == null)
             {

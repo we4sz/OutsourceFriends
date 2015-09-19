@@ -36,7 +36,23 @@ namespace OutsourceFriends.Helpers
         new TravelerViewModel()
         {
             Name = x.Name,
+            Id = x.UserId,
             ImageUrl = x.ImageUrl
+        };
+
+        public static System.Linq.Expressions.Expression<Func<TravelerRating, TravelerRatingViewModel>> travelerRatingViewSelector = (x) =>
+        new TravelerRatingViewModel()
+        {
+            Rating = x.Rating,
+            Description = x.Description,
+            Guide = new SmallGuideViewModel
+            {
+                ImageUrl = x.Guide.ImageUrl,
+                Name = x.Guide.Name,
+                Title = x.Guide.Title,
+
+            },
+            Created = x.Created
         };
     }
 }

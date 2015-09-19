@@ -18,13 +18,16 @@ namespace OutsourceFriends.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
 
+
+        public virtual ICollection<TravelerRating> Ratings { get; set; }
+
+        public virtual ICollection<GuideRating> GivenRatings { get; set; }
+
+        public virtual ICollection<BookingRequest> Bookings { get; set; }
+
         [Index]
         [MaxLength(256)]
         public string Name { get; set; }
-
-
-        [MaxLength(256)]
-        public string CurrentTitle { get; set; }
 
         [Index]
         [DefaultValue(false)]
@@ -38,8 +41,7 @@ namespace OutsourceFriends.Models
 
         [Index]
         public int Age { get; set; }
-        
- 
+
         [Index]
         [MaxLength(256)]
         public string ImageUrl { get; set; }
@@ -48,7 +50,7 @@ namespace OutsourceFriends.Models
         public DateTime? CreatedTime { get; set; }
 
         public DbGeography Location { get; set; }
-        
+
         [MaxLength(256)]
         public string Description { get; set; }
 
@@ -57,12 +59,15 @@ namespace OutsourceFriends.Models
 
         public Traveler()
         {
+            Ratings = new List<TravelerRating>();
+            GivenRatings = new List<GuideRating>();
+            Bookings = new List<BookingRequest>();
         }
 
         public void beforeSave(bool fullyLoaded)
         {
             UpdatedTime = DateTime.UtcNow;
         }
-        
+
     }
 }

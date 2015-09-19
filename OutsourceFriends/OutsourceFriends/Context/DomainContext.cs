@@ -56,6 +56,8 @@ namespace OutsourceFriends.Context
 
         public DbSet<GuideRating> GuideRatings { get; set; }
 
+        public DbSet<TravelerRating> TravelerRating { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

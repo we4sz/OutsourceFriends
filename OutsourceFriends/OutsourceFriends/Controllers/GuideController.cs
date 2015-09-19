@@ -19,8 +19,7 @@ namespace OutsourceFriends.Controllers
     public class GuideController : BaseController
     {
 
-
-        [Route("/")]
+        
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
@@ -39,7 +38,7 @@ namespace OutsourceFriends.Controllers
             return NotFound();
         }
 
-        [Route("/{id:string}/rating")]
+        [Route("{id}/rating")]
         [HttpPost]
         public async Task<IHttpActionResult> AddRating(string id, GuideRatingViewModel model)
         {
@@ -80,7 +79,7 @@ namespace OutsourceFriends.Controllers
         }
 
 
-        [Route("/{id:string}/rating")]
+        [Route("{id}/rating")]
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteRating(string id)
         {
@@ -99,8 +98,9 @@ namespace OutsourceFriends.Controllers
             return BadRequest();
         }
 
-        [Route("/{id:string}/ratings")]
+        [Route("{id}/ratings")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetRatings(string id)
         {
             if (!ModelState.IsValid)
@@ -114,8 +114,9 @@ namespace OutsourceFriends.Controllers
         }
 
 
-        [Route("/{id:string}")]
+        [Route("{id}")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> Get(string id)
         {
             if (!ModelState.IsValid)
@@ -133,6 +134,7 @@ namespace OutsourceFriends.Controllers
 
         [Route("Result")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetResult(GuideSearchViewModel model)
         {
             if (!ModelState.IsValid)
@@ -145,8 +147,7 @@ namespace OutsourceFriends.Controllers
             return Ok(gs);
         }
 
-
-        [Route("/")]
+        
         [HttpDelete]
         public async Task<IHttpActionResult> Delete()
         {
@@ -167,10 +168,31 @@ namespace OutsourceFriends.Controllers
             return NotFound();
         }
 
+        [Route("Name")]
+        [HttpPut]
+        public async Task<IHttpActionResult> SetName(NameViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            string uid = User.Identity.GetUserId();
+
+            Guide g = await DomainManager.db.Guides.FirstOrDefaultAsync(x => x.UserId == uid);
+            if (g != null)
+            {
+                g.Name = model.Name;
+                DomainManager.updateEntity(g);
+                await DomainManager.save();
+            }
+
+            return NotFound();
+        }
+
 
         [Route("MinBudget")]
         [HttpPut]
-        public async Task<IHttpActionResult> SetLocation(GuideBudgetViewModel model)
+        public async Task<IHttpActionResult> SetMinBudget(BudgetViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -191,7 +213,7 @@ namespace OutsourceFriends.Controllers
 
         [Route("Location")]
         [HttpPut]
-        public async Task<IHttpActionResult> SetLocation(GuideLocationViewModel model)
+        public async Task<IHttpActionResult> SetLocation(LocationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -213,7 +235,7 @@ namespace OutsourceFriends.Controllers
 
         [Route("Title")]
         [HttpPut]
-        public async Task<IHttpActionResult> SetTitle(GuideTitleViewModel model)
+        public async Task<IHttpActionResult> SetTitle(TitleViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -235,7 +257,7 @@ namespace OutsourceFriends.Controllers
 
         [Route("Description")]
         [HttpPut]
-        public async Task<IHttpActionResult> SetDescription(GuideDescriptionViewModel model)
+        public async Task<IHttpActionResult> SetDescription(DescriptionViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -255,7 +277,7 @@ namespace OutsourceFriends.Controllers
             return NotFound();
         }
 
-        [Route("Tag/{tag:string}")]
+        [Route("Tag/{tag}")]
         [HttpPut]
         public async Task<IHttpActionResult> AddTag(string tag)
         {
@@ -285,7 +307,7 @@ namespace OutsourceFriends.Controllers
             return NotFound();
         }
 
-        [Route("Tag/{tag:string}")]
+        [Route("Tag/{tag}")]
         [HttpDelete]
         public async Task<IHttpActionResult> RemoveTag(string tag)
         {

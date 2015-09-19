@@ -11,5 +11,19 @@ namespace OutsourceFriends.Models
 
         public string ImageUrl { get; set; }
 
+        public string Id { get; set; }
+
     }
+
+    public class TravelerRatingViewModel
+    {
+        public int Rating { get; set; }
+
+        public string Description { get; set; }
+
+        public SmallGuideViewModel Guide { get; set; }
+
+        public DateTime? Created { get; set; }
+    }
+
 }

@@ -218,7 +218,7 @@ namespace OutsourceFriends.Context
                 "select top " + amount + " " +
 
                 @"g.UserId 
-		        from Guides as g with(nolock,Index(SPINDEX_Guide))
+		        from Guides as g with(nolock,Index(SPINDEX_GUIDE))
 		        where "
 
                 + (maxbudget > 0 ? " g.minbudget < " + maxbudget + " and " : "")

@@ -35,7 +35,7 @@ namespace OutsourceFriends.Helpers
     {
 
 
-        public static async Task<SignInStatusData> Login(DomainManager manager, ApplicationSignInManager SignInManager, string email, string password, bool remember, ProfileType profileType, string language)
+        public static async Task<SignInStatusData> Login(DomainManager manager, ApplicationSignInManager SignInManager, string email, string password, bool remember, string language)
         {
             SignInStatusData data = new SignInStatusData();
             if (string.IsNullOrWhiteSpace(email))
@@ -64,14 +64,8 @@ namespace OutsourceFriends.Helpers
                     if (data.Status == SignInStatus.Success)
                     {
                         data.SignInUser = user;
-                        if (profileType == ProfileType.TRAVELER)
-                        {
-                            await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-                        }
-                        else
-                        {
-                            await GuideHelper.CreateGuidIfNotExists(manager, user);
-                        }
+                        await TravelerHelper.CreateTravelerIfNotExists(manager, user);
+                        await GuideHelper.CreateGuidIfNotExists(manager, user);
                     }
                     else if (data.Status == SignInStatus.LockedOut)
                     {
@@ -99,7 +93,7 @@ namespace OutsourceFriends.Helpers
         }
 
 
-        public static async Task<SignInStatusData> FacebookLogin(DomainManager manager, ProfileType profileType, string token)
+        public static async Task<SignInStatusData> FacebookLogin(DomainManager manager, string token)
         {
             SignInStatusData data = new SignInStatusData();
 
@@ -133,21 +127,15 @@ namespace OutsourceFriends.Helpers
                         }
                         else
                         {
-                            return await CreateUser(manager, profileType, mail, null, id);
+                            return await CreateUser(manager, mail, null, id);
                         }
                     }
                     else
                     {
                         var user = users.First();
                         data.SignInUser = user;
-                        if (profileType == ProfileType.TRAVELER)
-                        {
-                            await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-                        }
-                        else
-                        {
-                            await GuideHelper.CreateGuidIfNotExists(manager, user);
-                        }
+                        await TravelerHelper.CreateTravelerIfNotExists(manager, user);
+                        await GuideHelper.CreateGuidIfNotExists(manager, user);
                         data.Status = SignInStatus.Success;
                     }
                 }
@@ -192,7 +180,7 @@ namespace OutsourceFriends.Helpers
         }
 
 
-        public static async Task<SignInStatusData> CreateUser(DomainManager manager, ProfileType profileType, string mail, string password, string facebookid)
+        public static async Task<SignInStatusData> CreateUser(DomainManager manager, string mail, string password, string facebookid)
         {
             SignInStatusData data = new SignInStatusData();
 
@@ -233,18 +221,8 @@ namespace OutsourceFriends.Helpers
 
 
 
-            if (profileType == ProfileType.TRAVELER)
-            {
-                Traveler app = await TravelerHelper.CreateTravelerIfNotExists(manager, user);
-                await manager.save();
-                //Task.Run(() => MailHandler.sendPrivateWelcomeMail(app, url));
-            }
-            else
-            {
-                await GuideHelper.CreateGuidIfNotExists(manager, user);
-                await manager.save();
-                //Task.Run(() => MailHandler.sendOrganisationWelcomeMail(user, url));
-            }
+            user.Traveler = await TravelerHelper.CreateTravelerIfNotExists(manager, user);
+            user.Guide = await GuideHelper.CreateGuidIfNotExists(manager, user);
 
             data.Status = SignInStatus.Success;
             data.SignInUser = user;

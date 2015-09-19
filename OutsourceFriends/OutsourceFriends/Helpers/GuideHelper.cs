@@ -20,7 +20,9 @@ namespace OutsourceFriends.Helpers
                     CreatedTime = DateTime.UtcNow,
                     UpdatedTime = DateTime.UtcNow,
                     LastActive = DateTime.UtcNow,
-                    Removed = false
+                    Removed = false,
+                    ShowInSearch = false,
+                    MinBudget = 0,
                 };
 
                 manager.db.Guides.Add(g);
@@ -35,7 +37,9 @@ namespace OutsourceFriends.Helpers
             {
                 Title = x.Title,
                 Description = x.Description,
-                Tags = x.Tags.Select(xx => xx.Name)
+                Tags = x.Tags.Select(xx => xx.Name),
+                Name = x.Name,
+                ImageUrl = x.ImageUrl
             };
 
         public static System.Linq.Expressions.Expression<Func<GuideRating, GuideRatingViewModel>> guideRatingViewSelector = (x) =>
@@ -46,7 +50,8 @@ namespace OutsourceFriends.Helpers
                 Traveler = new TravelerViewModel
                 {
                     ImageUrl = x.Traveler.ImageUrl,
-                    Name = x.Traveler.Name
+                    Name = x.Traveler.Name,
+                    Id = x.TravelerId
                 },
                 Created = x.Created
             };

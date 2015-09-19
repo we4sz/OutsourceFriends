@@ -182,8 +182,6 @@ namespace OutsourceFriends.Models
         [Required]
         public string Token { get; set; }
 
-        public ProfileType ProfileType { get; set; }
-
     }
 
 

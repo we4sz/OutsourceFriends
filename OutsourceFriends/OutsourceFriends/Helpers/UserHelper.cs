@@ -100,7 +100,7 @@ namespace OutsourceFriends.Helpers
             try
             {
                 FacebookClient client = new FacebookClient(token);
-                dynamic me = client.Get("me");
+                dynamic me = client.Get("me", new { fields =  "id,name,email"  });
                 string mail = me.email;
                 string id = me.id;
                 if (mail == null)
@@ -113,7 +113,7 @@ namespace OutsourceFriends.Helpers
                 }
                 else
                 {
-                    ICollection<ApplicationUser> users = await (await manager.getUsersByRole("facebookid" + id)).Include(x => x.Guide).Include(x => x.Traveler).ToListAsync();
+                    ICollection<ApplicationUser> users = await manager.getUsersByRole("facebookid" + id);
                     if (users == null || users.Count > 1)
                     {
                         data.SignInError = "203";
@@ -140,7 +140,7 @@ namespace OutsourceFriends.Helpers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 data.SignInError = "204";
             }
@@ -158,7 +158,7 @@ namespace OutsourceFriends.Helpers
             {
                 return "200";
             }
-            ICollection<ApplicationUser> users = await (await manager.getUsersByRole("facebookid" + id)).ToListAsync();
+            ICollection<ApplicationUser> users = await manager.getUsersByRole("facebookid" + id);
             if (users.Count > 0)
             {
                 return "201";

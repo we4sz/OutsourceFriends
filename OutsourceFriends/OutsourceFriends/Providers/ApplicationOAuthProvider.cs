@@ -63,11 +63,12 @@ namespace OutsourceFriends.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
+            /*
+        
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
             if (allowedOrigin == null) allowedOrigin = "*";
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
-
+            */
 
             ApplicationUser user = null;
             string email = context.UserName;

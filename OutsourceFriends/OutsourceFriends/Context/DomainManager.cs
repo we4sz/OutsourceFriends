@@ -103,18 +103,18 @@ namespace OutsourceFriends.Context
 
         }
 
-        public async Task<IQueryable<ApplicationUser>> getUsersByRole(string role)
+        public async Task<List<ApplicationUser>> getUsersByRole(string role)
         {
             using (RoleManager<IdentityRole> RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db)))
             {
                 IdentityRole irole = await RoleManager.FindByNameAsync(role);
                 if (irole == null)
                 {
-                    return Enumerable.Empty<ApplicationUser>().AsQueryable();
+                    return new List<ApplicationUser>();
                 }
                 await db.Entry(irole).Collection(x => x.Users).LoadAsync();
                 ICollection<string> accounts = irole.Users.Select(x => x.UserId).ToList();
-                return db.Users.Where(x => accounts.Contains(x.Id) && !x.Removed);
+                return await db.Users.Where(x => accounts.Contains(x.Id) && !x.Removed).Include(x => x.Guide).Include(x => x.Traveler).ToListAsync();
             }
         }
 

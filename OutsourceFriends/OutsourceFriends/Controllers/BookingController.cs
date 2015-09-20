@@ -147,6 +147,7 @@ namespace OutsourceFriends.Controllers
 
             BookingRequest br = await (from b in DomainManager.db.BookingRequests
                                        where b.Id == bookingid
+                                       where b.GuideId == uid
                                        select b).Include(x => x.Dates).FirstOrDefaultAsync();
 
             if (br != null)
@@ -178,6 +179,7 @@ namespace OutsourceFriends.Controllers
             BookingDate br = await (from b in DomainManager.db.BookingDates
                                     where b.Id == dateid
                                     where b.BookingId == bookingid
+                                    where b.Booking.GuideId == uid
                                     select b).FirstOrDefaultAsync();
 
             if (br != null)
@@ -203,6 +205,7 @@ namespace OutsourceFriends.Controllers
 
             BookingRequest br = await (from b in DomainManager.db.BookingRequests
                                        where b.Id == bookingid
+                                       where b.GuideId == uid
                                        select b).Include(x => x.PlanItems).FirstOrDefaultAsync();
 
             if (br != null)
@@ -212,6 +215,7 @@ namespace OutsourceFriends.Controllers
                     Amount = model.Amount,
                     Duration = model.Duration,
                     Title = model.Title,
+                    BookingId = bookingid
                 });
 
                 DomainManager.updateEntity(br);
@@ -224,7 +228,7 @@ namespace OutsourceFriends.Controllers
 
         [Route("{bookingid}/Plan/{planid}")]
         [HttpDelete]
-        public async Task<IHttpActionResult> AddPlanItem(Int64 bookingid, Int64 planId)
+        public async Task<IHttpActionResult> RemovePlanItem(Int64 bookingid, Int64 planId)
         {
             if (!ModelState.IsValid)
             {
@@ -236,6 +240,7 @@ namespace OutsourceFriends.Controllers
             BookingPlanItem br = await (from b in DomainManager.db.BookingPlanItems
                                         where b.BookingId == bookingid
                                         where b.Id == planId
+                                        where b.Booking.GuideId == uid
                                         select b).FirstOrDefaultAsync();
 
             if (br != null)

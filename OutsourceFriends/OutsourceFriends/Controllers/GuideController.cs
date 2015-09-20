@@ -62,6 +62,9 @@ namespace OutsourceFriends.Controllers
                             Traveler = t,
                             LastEdited = DateTime.UtcNow,
                             Rating = model.Rating,
+                            GuideId = g.UserId,
+                            Guide = g,
+                            TravelerId = t.UserId
                         });
                         DomainManager.updateEntity(g);
                         await DomainManager.save();

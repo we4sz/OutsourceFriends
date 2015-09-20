@@ -77,7 +77,7 @@ namespace OutsourceFriends.Controllers
                 try {
                     DomainManager.updateEntity(g);
                     await DomainManager.save();
-                }catch(Exception e)
+                }catch(Exception)
                 {
 
                 }

@@ -287,11 +287,14 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\GuideController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\TravelerController.cs" />
     <Compile Include="Filters\RequireSecureConnectionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BookingHelper.cs" />
     <Compile Include="Helpers\GuideHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\TravelerHelper.cs" />
@@ -308,17 +311,28 @@
     <Compile Include="Migrations\201509191917284_guid.Designer.cs">
       <DependentUpon>201509191917284_guid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509200026200_bookings.cs" />
+    <Compile Include="Migrations\201509200026200_bookings.Designer.cs">
+      <DependentUpon>201509200026200_bookings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509200256321_payment.cs" />
+    <Compile Include="Migrations\201509200256321_payment.Designer.cs">
+      <DependentUpon>201509200256321_payment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Account\ApplicationUser.cs" />
     <Compile Include="Models\Account\ForgotPasswordCode.cs" />
     <Compile Include="Models\Account\ManageViewModels.cs" />
+    <Compile Include="Models\Booking\BookingDate.cs" />
     <Compile Include="Models\Booking\BookingRequest.cs" />
+    <Compile Include="Models\Booking\BookingViewModels.cs" />
     <Compile Include="Models\Guide\Guide.cs" />
     <Compile Include="Models\Guide\GuideRating.cs" />
     <Compile Include="Models\Guide\GuideViewModels.cs" />
     <Compile Include="Models\Guide\Tag.cs" />
     <Compile Include="Models\OnSavingListener.cs" />
+    <Compile Include="Models\Payment\PaymentViewModels.cs" />
     <Compile Include="Models\SearchSort.cs" />
     <Compile Include="Models\Traveler\Traveler.cs" />
     <Compile Include="Models\Traveler\TravelerRating.cs" />
@@ -381,6 +395,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509191917284_guid.resx">
       <DependentUpon>201509191917284_guid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200026200_bookings.resx">
+      <DependentUpon>201509200026200_bookings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200256321_payment.resx">
+      <DependentUpon>201509200256321_payment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

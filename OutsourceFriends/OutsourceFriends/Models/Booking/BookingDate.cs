@@ -7,13 +7,8 @@ using System.Web;
 
 namespace OutsourceFriends.Models
 {
-    public class BookingRequest
+    public class BookingDate
     {
-
-        public BookingRequest()
-        {
-            Dates = new List<BookingDate>();
-        }
 
         public virtual Guide Guide { get; set; }
 
@@ -29,30 +24,24 @@ namespace OutsourceFriends.Models
         [Column(Order = 1)]
         public string TravelerId { get; set; }
 
+
+        public virtual BookingRequest Booking { get; set; }
+
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column(Order = 2)]
+        public Int64 BookingId { get; set; }
+
+        
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [Column(Order = 3)]
         public Int64 Id { get; set; }
 
-        [Index]
-        public int MinAmount { get; set; }
 
         [Index]
-        public int MaxAmount { get; set; }
-
-        public virtual ICollection<BookingDate> Dates { get; set; }
-
-        [Index]
-        public DateTime? AcceptedDate { get; set; }
-
-        [Index]
-        public DateTime? Created { get; set; }
-
-        [Index]
-        [MaxLength(256)]
-        public string TransactionId { get; set; }
-
+        public DateTime? Date { get; set; }
 
     }
 }

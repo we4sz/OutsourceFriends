@@ -58,6 +58,8 @@ namespace OutsourceFriends.Context
 
         public DbSet<BookingRequest> BookingRequests { get; set; }
 
+        public DbSet<BookingPlanItem> BookingPlanItems { get; set; }
+
         public DbSet<BookingDate> BookingDates { get; set; }
 
         public DbSet<TravelerRating> TravelerRating { get; set; }
@@ -73,6 +75,11 @@ namespace OutsourceFriends.Context
 
             modelBuilder.Entity<BookingDate>().HasRequired(t => t.Booking)
           .WithMany(s => s.Dates)
+          .HasForeignKey(t => new { t.GuideId, t.TravelerId, t.BookingId });
+
+
+            modelBuilder.Entity<BookingPlanItem>().HasRequired(t => t.Booking)
+          .WithMany(s => s.PlanItems)
           .HasForeignKey(t => new { t.GuideId, t.TravelerId, t.BookingId });
 
             base.OnModelCreating(modelBuilder);

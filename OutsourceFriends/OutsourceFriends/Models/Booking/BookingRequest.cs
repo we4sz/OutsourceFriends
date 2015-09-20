@@ -13,6 +13,7 @@ namespace OutsourceFriends.Models
         public BookingRequest()
         {
             Dates = new List<BookingDate>();
+            PlanItems = new List<BookingPlanItem>();
         }
 
         public virtual Guide Guide { get; set; }
@@ -53,6 +54,8 @@ namespace OutsourceFriends.Models
         [MaxLength(256)]
         public string TransactionId { get; set; }
 
+
+        public virtual ICollection<BookingPlanItem> PlanItems { get; set; }
 
     }
 }

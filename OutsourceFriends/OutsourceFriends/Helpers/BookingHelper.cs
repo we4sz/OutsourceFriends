@@ -9,19 +9,44 @@ namespace OutsourceFriends.Helpers
     public class BookingHelper
     {
 
+        public static Func<BookingRequest, BookingRequstViewModel> bookingViewFunc = (ls) =>
+    new BookingRequstViewModel()
+    {
+        Id = ls.Id,
+        Traveler = new TravelerViewModel
+        {
+            Id = ls.TravelerId,
+            ImageUrl = ls.Traveler.ImageUrl,
+            Name = ls.Traveler.Name
+        },
+        Plans = ls.PlanItems.Select(x => new BookingPlanItemViewModel()
+        {
+            Title = x.Title,
+            Amount = x.Amount,
+            Duration = x.Duration,
+            Id = x.Id
+        }),
+        Dates = ls.Dates.Select(x => new BookingDateViewModel() { Date = x.Date.Value, Id = x.Id })
+    };
 
-
-        public static System.Linq.Expressions.Expression<Func<Guide, GuideViewModel>> guideViewSelector = (x) =>
-            new GuideViewModel()
+        public static System.Linq.Expressions.Expression<Func<BookingRequest, BookingRequstViewModel>> bookingViewSelector = (ls) =>
+            new BookingRequstViewModel()
             {
-                Title = x.Title,
-                Description = x.Description,
-                Tags = x.Tags.Select(xx => xx.Name),
-                Name = x.Name,
-                ImageUrl = x.ImageUrl,
-                Rating = x.Ratings.Any() ? x.Ratings.Average(xx => xx.Rating) : 0,
-                Ratings = x.Ratings.Count(),
-                Id = x.UserId
+                Id = ls.Id,
+                Traveler = new TravelerViewModel
+                {
+                    Id = ls.TravelerId,
+                    ImageUrl = ls.Traveler.ImageUrl,
+                    Name = ls.Traveler.Name
+                },
+                Plans = ls.PlanItems.Select(x => new BookingPlanItemViewModel()
+                {
+                    Title = x.Title,
+                    Amount = x.Amount,
+                    Duration = x.Duration,
+                    Id = x.Id
+                }),
+                Dates = ls.Dates.Select(x => new BookingDateViewModel() { Date = x.Date.Value, Id = x.Id })
             };
 
     }

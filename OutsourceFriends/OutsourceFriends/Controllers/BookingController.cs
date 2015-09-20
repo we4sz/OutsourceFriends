@@ -60,20 +60,8 @@ namespace OutsourceFriends.Controllers
                         DomainManager.updateEntity(t);
                         await DomainManager.save();
 
-
-
-                        var tt = new
-                        {
-                            Id = br.Id,
-                            Traveler = new
-                            {
-                                Id = br.TravelerId,
-                                ImageUrl = br.Traveler.ImageUrl,
-                                Name = br.Traveler.Name
-                            },
-                            Dates = br.Dates.Select(x => new { Date = x.Date, Id = x.Id })
-                        };
-                        return Ok(br);
+                        
+                        return Ok(BookingHelper.bookingViewFunc(br));
                     }
                     else
                     {
@@ -99,17 +87,7 @@ namespace OutsourceFriends.Controllers
                            where ls.GuideId == uid
                            where ls.AcceptedDate == null
                            where ls.Dates.Any()
-                           select new
-                           {
-                               Id = ls.Id,
-                               Traveler = new
-                               {
-                                   Id = ls.TravelerId,
-                                   ImageUrl = ls.Traveler.ImageUrl,
-                                   Name = ls.Traveler.Name
-                               },
-                               Dates = ls.Dates.Select(x => new { Date = x.Date, Id = x.Id })
-                           })
+                           select BookingHelper.bookingViewSelector)
                     .ToListAsync();
 
             return Ok(l);
@@ -129,17 +107,7 @@ namespace OutsourceFriends.Controllers
                            where ls.GuideId == uid
                            where !ls.AcceptedDate.HasValue
                            where !ls.Dates.Any()
-                           select new
-                           {
-                               Id = ls.Id,
-                               Traveler = new
-                               {
-                                   Id = ls.TravelerId,
-                                   ImageUrl = ls.Traveler.ImageUrl,
-                                   Name = ls.Traveler.Name
-                               },
-                               Dates = ls.Dates.Select(x => new { Date = x.Date, Id = x.Id })
-                           })
+                           select BookingHelper.bookingViewSelector)
                     .ToListAsync();
 
             return Ok(l);
@@ -159,17 +127,7 @@ namespace OutsourceFriends.Controllers
             var l = await (from ls in DomainManager.db.BookingRequests
                            where ls.GuideId == uid
                            where ls.AcceptedDate.HasValue
-                           select new
-                           {
-                               Id = ls.Id,
-                               Traveler = new
-                               {
-                                   Id = ls.TravelerId,
-                                   ImageUrl = ls.Traveler.ImageUrl,
-                                   Name = ls.Traveler.Name
-                               },
-                               Dates = ls.Dates.Select(x => new { Date = x.Date, Id = x.Id })
-                           })
+                           select BookingHelper.bookingViewSelector)
                     .ToListAsync();
 
             return Ok(l);
@@ -230,6 +188,63 @@ namespace OutsourceFriends.Controllers
             return Ok();
         }
 
+
+        [Route("{bookingid}/Plan")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddPlanItem(Int64 bookingid, BookingPlanViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string uid = User.Identity.GetUserId();
+
+            BookingRequest br = await (from b in DomainManager.db.BookingRequests
+                                       where b.Id == bookingid
+                                       select b).Include(x => x.PlanItems).FirstOrDefaultAsync();
+
+            if (br != null)
+            {
+                br.PlanItems.Add(new BookingPlanItem()
+                {
+                    Amount = model.Amount,
+                    Duration = model.Duration,
+                    Title = model.Title,
+                });
+
+                DomainManager.updateEntity(br);
+                await DomainManager.save();
+            }
+
+            return Ok();
+        }
+
+
+        [Route("{bookingid}/Plan/{planid}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> AddPlanItem(Int64 bookingid, Int64 planId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string uid = User.Identity.GetUserId();
+
+            BookingPlanItem br = await (from b in DomainManager.db.BookingPlanItems
+                                       where b.BookingId == bookingid
+                                       where b.Id == planId
+                                       select b).FirstOrDefaultAsync();
+
+            if (br != null)
+            {
+                DomainManager.db.BookingPlanItems.Remove(br);
+                await DomainManager.save();
+            }
+
+            return Ok();
+        }
 
 
     }

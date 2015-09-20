@@ -288,7 +288,7 @@
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TravelerController.cs" />
     <Compile Include="Filters\RequireSecureConnectionFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -319,6 +319,14 @@
     <Compile Include="Migrations\201509200256321_payment.Designer.cs">
       <DependentUpon>201509200256321_payment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509200404076_plan.cs" />
+    <Compile Include="Migrations\201509200404076_plan.Designer.cs">
+      <DependentUpon>201509200404076_plan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509200426388_plan2.cs" />
+    <Compile Include="Migrations\201509200426388_plan2.Designer.cs">
+      <DependentUpon>201509200426388_plan2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Account\ApplicationUser.cs" />
@@ -327,6 +335,7 @@
     <Compile Include="Models\Booking\BookingDate.cs" />
     <Compile Include="Models\Booking\BookingRequest.cs" />
     <Compile Include="Models\Booking\BookingViewModels.cs" />
+    <Compile Include="Models\Booking\BookingPlanItem.cs" />
     <Compile Include="Models\Guide\Guide.cs" />
     <Compile Include="Models\Guide\GuideRating.cs" />
     <Compile Include="Models\Guide\GuideViewModels.cs" />
@@ -334,6 +343,7 @@
     <Compile Include="Models\OnSavingListener.cs" />
     <Compile Include="Models\Payment\PaymentViewModels.cs" />
     <Compile Include="Models\SearchSort.cs" />
+    <Compile Include="Models\Search\SearchViewModels.cs" />
     <Compile Include="Models\Traveler\Traveler.cs" />
     <Compile Include="Models\Traveler\TravelerRating.cs" />
     <Compile Include="Models\Traveler\TravelerViewModels.cs" />
@@ -401,6 +411,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509200256321_payment.resx">
       <DependentUpon>201509200256321_payment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200404076_plan.resx">
+      <DependentUpon>201509200404076_plan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200426388_plan2.resx">
+      <DependentUpon>201509200426388_plan2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

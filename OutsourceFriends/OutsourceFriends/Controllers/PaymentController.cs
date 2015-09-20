@@ -1,7 +1,6 @@
 ﻿using Braintree;
 using OutsourceFriends.Models;
 using OutsourceFriends.Context;
-using OutsourceFriends.Models;
 using SelfieJobs.Filters;
 using System;
 using System.Collections.Generic;

@@ -73,15 +73,6 @@ namespace OutsourceFriends.Context
             modelBuilder.Entity<Guide>().HasRequired(x => x.User).WithOptional(x => x.Guide);
 
 
-            modelBuilder.Entity<BookingDate>().HasRequired(t => t.Booking)
-          .WithMany(s => s.Dates)
-          .HasForeignKey(t => new { t.GuideId, t.TravelerId, t.BookingId });
-
-
-            modelBuilder.Entity<BookingPlanItem>().HasRequired(t => t.Booking)
-          .WithMany(s => s.PlanItems)
-          .HasForeignKey(t => new { t.GuideId, t.TravelerId, t.BookingId });
-
             base.OnModelCreating(modelBuilder);
         }
     }

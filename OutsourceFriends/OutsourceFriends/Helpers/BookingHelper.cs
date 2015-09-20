@@ -26,6 +26,7 @@ namespace OutsourceFriends.Helpers
             Duration = x.Duration,
             Id = x.Id
         }),
+
         Dates = ls.Dates.Select(x => new BookingDateViewModel() { Date = x.Date.Value, Id = x.Id })
     };
 

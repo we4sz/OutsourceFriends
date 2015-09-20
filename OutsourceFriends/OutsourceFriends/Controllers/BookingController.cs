@@ -60,7 +60,7 @@ namespace OutsourceFriends.Controllers
                         DomainManager.updateEntity(t);
                         await DomainManager.save();
 
-                        
+
                         return Ok(BookingHelper.bookingViewFunc(br));
                     }
                     else
@@ -132,6 +132,7 @@ namespace OutsourceFriends.Controllers
 
             return Ok(l);
         }
+
 
 
         [Route("{bookingid}/Accept/{dateid}")]
@@ -233,9 +234,9 @@ namespace OutsourceFriends.Controllers
             string uid = User.Identity.GetUserId();
 
             BookingPlanItem br = await (from b in DomainManager.db.BookingPlanItems
-                                       where b.BookingId == bookingid
-                                       where b.Id == planId
-                                       select b).FirstOrDefaultAsync();
+                                        where b.BookingId == bookingid
+                                        where b.Id == planId
+                                        select b).FirstOrDefaultAsync();
 
             if (br != null)
             {

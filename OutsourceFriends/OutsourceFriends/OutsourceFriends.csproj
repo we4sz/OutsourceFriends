@@ -327,6 +327,14 @@
     <Compile Include="Migrations\201509200426388_plan2.Designer.cs">
       <DependentUpon>201509200426388_plan2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509200435564_plan3.cs" />
+    <Compile Include="Migrations\201509200435564_plan3.Designer.cs">
+      <DependentUpon>201509200435564_plan3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509200437314_plan4.cs" />
+    <Compile Include="Migrations\201509200437314_plan4.Designer.cs">
+      <DependentUpon>201509200437314_plan4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\Account\ApplicationUser.cs" />
@@ -417,6 +425,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509200426388_plan2.resx">
       <DependentUpon>201509200426388_plan2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200435564_plan3.resx">
+      <DependentUpon>201509200435564_plan3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509200437314_plan4.resx">
+      <DependentUpon>201509200437314_plan4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
